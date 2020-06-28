@@ -3,7 +3,7 @@
     "host": "127.0.0.1",
     "database": "akarat",
     "username": "root",
-    "password": "3karat123QWE",
+    "password": "password",
     "name": "mainDB",
     "connector": "mysql",
     "allowExtendedOperators": true
