@@ -1,0 +1,22 @@
+{
+  "name": "imagesRoyalty",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "mediaId": {
+      "type": "number",
+      "required": true
+    },
+    "royaltyId": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

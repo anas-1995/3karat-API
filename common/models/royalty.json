@@ -1,0 +1,311 @@
+{
+  "name": "royalty",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "replaceOnPUT": false,
+  "scope": {
+    "include": [
+      {
+        "relation": "street"
+      },
+      {
+        "relation": "media"
+      }
+    ]
+  },
+  "properties": {
+    "ownerId": {
+      "type": "number",
+      "required": true
+    },
+    "typeItem": {
+      "type": "string",
+      "required": true
+    },
+    "cityId": {
+      "type": "number",
+      "required": true
+    },
+    "locationId": {
+      "type": "number",
+      "required": true
+    },
+    "subLocationId": {
+      "type": "number",
+      "required": true
+    },
+    "streetId": {
+      "type": "number",
+      "required": true
+    },
+    "buildingName": {
+      "type": "string",
+      "required": false
+    },
+    "buildingNumber": {
+      "type": "string",
+      "required": false
+    },
+    "area": {
+      "type": "number",
+      "required": true
+    },
+    "floor": {
+      "type": "string",
+      "required": true
+    },
+    "numberRoom": {
+      "type": "string",
+      "required": true
+    },
+    "direction": {
+      "type": "string",
+      "required": true
+    },
+    "cover": {
+      "type": "string",
+      "required": true
+    },
+    "look": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string",
+      "required": true
+    },
+    "ownerDescription": {
+      "type": "string",
+      "required": true
+    },
+    "typeRoyalty": {
+      "type": "string",
+      "required": true
+    },
+    "sellingPrice": {
+      "type": "number",
+      "required": true
+    },
+    "rentingPrice": {
+      "type": "number",
+      "required": true
+    },
+    "hasLift": {
+      "type": "string",
+      "required": true
+    },
+    "hasParking": {
+      "type": "string",
+      "required": true
+    },
+    "hasTerrace": {
+      "type": "string",
+      "required": true
+    },
+    "ownerName": {
+      "type": "string",
+      "required": true
+    },
+    "mediatorName": {
+      "type": "string",
+      "required": true
+    },
+    "phoneNumber": {
+      "type": "string",
+      "required": true
+    },
+    "mobilePhoneNumber": {
+      "type": "string",
+      "required": true
+    },
+    "employName": {
+      "type": "string",
+      "required": true
+    },
+    "note": {
+      "type": "string",
+      "required": false
+    },
+    "status": {
+      "type": "string",
+      "required": true,
+      "default": "active"
+    },
+    "createdAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "media": {
+      "type": "hasMany",
+      "model": "media",
+      "foreignKey": "royaltyId",
+      "options": {
+        "nestRemoting": true
+      },
+      "through": "imagesRoyalty",
+      "keyThrough": "mediaId"
+    },
+    "owner": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "ownerId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "street": {
+      "type": "belongsTo",
+      "model": "street",
+      "foreignKey": "streetId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "super-admin",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin-office",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "super-admin",
+      "permission": "ALLOW",
+      "property": "createNewRoyalty"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "admin-office",
+      "permission": "ALLOW",
+      "property": "createNewRoyalty"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "super-admin",
+      "permission": "ALLOW",
+      "property": "updateRoyalty"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "admin-office",
+      "permission": "ALLOW",
+      "property": "updateRoyalty"
+    }
+  ],
+  "methods": {
+    "updateRoyalty": {
+      "accepts": [
+        {
+          "arg": "id",
+          "type": "number",
+          "required": true,
+          "description": "",
+          "http": {
+            "source": "path"
+          }
+        },
+        {
+          "arg": "royaltyData",
+          "type": "object",
+          "required": true,
+          "description": ""
+        },
+        {
+          "arg": "images",
+          "type": "array",
+          "required": true,
+          "description": ""
+        },
+        {
+          "arg": "req",
+          "type": "object",
+          "required": true,
+          "description": "",
+          "http": {
+            "source": "req"
+          }
+        }
+      ],
+      "returns": [
+        {
+          "arg": "result",
+          "type": "object",
+          "root": true,
+          "description": ""
+        }
+      ],
+      "description": "",
+      "http": [
+        {
+          "path": "/:id/updateRoyalty",
+          "verb": "put"
+        }
+      ]
+    },
+    "createNewRoyalty": {
+      "accepts": [
+        {
+          "arg": "royaltyData",
+          "type": "object",
+          "required": true,
+          "description": ""
+        },
+        {
+          "arg": "images",
+          "type": "array",
+          "required": true,
+          "description": ""
+        },
+        {
+          "arg": "req",
+          "type": "object",
+          "required": true,
+          "description": "",
+          "http": {
+            "source": "req"
+          }
+        }
+      ],
+      "returns": [
+        {
+          "arg": "result",
+          "type": "object",
+          "root": true,
+          "description": ""
+        }
+      ],
+      "description": "",
+      "http": [
+        {
+          "path": "/createNewRoyalty",
+          "verb": "post"
+        }
+      ]
+    }
+  }
+}
